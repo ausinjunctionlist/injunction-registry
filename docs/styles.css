@@ -3,12 +3,55 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
 header { margin-bottom: 1rem; }
 h1 { margin: 0 0 .5rem 0; }
 .disclaimer { font-size: .95rem; opacity: .9; }
-#query { width: 100%; max-width: 640px; padding: .75rem 1rem; font-size: 1rem; border-radius: .5rem; border: 1px solid #ccc; }
-#results { margin-top: 1rem; display: grid; gap: .5rem; max-width: 720px; }
-.result { padding: .75rem 1rem; border: 1px solid #ddd; border-radius: .5rem; cursor: pointer; display: flex; justify-content: space-between; }
-.badge { padding: .15rem .5rem; border-radius: .375rem; font-size: .85rem; }
-.badge.ok { background: #e7f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
-.badge.warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
-#details { margin-top: 1rem; max-width: 720px; }
-.case { border-left: 3px solid #888; padding-left: .75rem; margin: .5rem 0; }
+
+/* Search input */
+#query {
+  width: 100%;
+  max-width: 640px;
+  padding: .75rem 1rem;
+  font-size: 1rem;
+  border-radius: .5rem;
+  border: 1px solid #ccc;
+}
+
+/* Results container – simple block flow (no grid) */
+#results {
+  margin-top: 1rem;
+  max-width: 720px;
+}
+
+/* Each result as a simple card */
+.result {
+  border: 1px solid #e3e3e3;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+}
+
+/* Clickable header area */
+.result-header { cursor: pointer; }
+.result-header:hover { background: rgba(0,0,0,0.02); }
+
+/* Title lines */
+.result-title { font-weight: 600; }
+.result-subtitle { font-size: 0.9rem; opacity: 0.8; }
+
+/* Natural dropdown below the header */
+.result-details {
+  display: none;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
+}
+.result-details.open { display: block; }
+
+/* Case block */
+.case {
+  margin: 0.5rem 0;
+  padding-left: 0.75rem;
+  border-left: 3px solid #bbb;
+}
+
+/* Utilities */
+.muted { opacity: 0.8; }
 .sr-only { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
