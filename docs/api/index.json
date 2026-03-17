@@ -4,14 +4,11 @@
     {
       "slug": "example-pty-ltd",
       "company_name": "Example Pty Ltd",
-      "company_id": { "type": "ACN", "value": "123 456 789" },
+      "company_id": {
+        "type": "ACN",
+        "value": "123 456 789"
+      },
       "has_injunction": true
-    },
-    {
-      "slug": "cleanco-pty-ltd",
-      "company_name": "CleanCo Pty Ltd",
-      "company_id": { "type": "ABN", "value": "12 345 678 901" },
-      "has_injunction": false
     }
   ]
 }
