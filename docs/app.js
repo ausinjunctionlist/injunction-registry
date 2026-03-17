@@ -10,120 +10,102 @@ async function loadIndex() {
 }
 
 function norm(s) {
-  return (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  return (s || '').toLowerCase().trim();
 }
 
-function companyDetailsTemplate(data) {
-  const inj = data.injunctions || [];
-  const rows = inj.map(c => `
-    <div class="case">
-      <div><strong>Court:</strong> ${c.court} (${c.jurisdiction})</div>
-      <div><strong>Type:</strong> ${c.type || '—'} | <strong>Status:</strong> ${c.status}</div>
-      <div><strong>Filed:</strong> ${c.filed_date} | <strong>Case #</strong> ${c.case_number}</div>
-      ${c.summary ? `<div><strong>Summary:</strong> ${c.summary}</div>` : ''}
-      ${c.source_url ? `<div><a href="${c.source_url}" target="_blank" rel="noopener noreferrer">Source record</a></div>` : ''}
-    </div>
-  `).join('');
+async function renderResults(matches) {
+  const container = document.getElementById('results');
+  container.innerHTML = '';
 
-  return `
-    <p class="muted">
-      <strong>${data.company_id.type}:</strong> ${data.company_id.value}
-      • <strong>Last reviewed:</strong> ${data.last_reviewed}
-    </p>
-    ${inj.length ? `<h3>Injunctions</h3>${rows}` : '<p>No injunction details found in record.</p>'}
-    <p class="disclaimer">This is not legal advice. See source links for authoritative information.</p>
-  `;
-}
+  for (const m of matches) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'result';
 
-function renderResults(matches) {
-  const results = document.getElementById('results');
-  results.innerHTML = '';
-
-  matches.slice(0, 100).forEach(m => {
-    const el = document.createElement('div');
-    el.className = 'result';
-    el.setAttribute('data-slug', m.slug);
-
-    // Header row
     const header = document.createElement('div');
     header.className = 'result-header';
-
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'toggle';
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.setAttribute('aria-controls', `details-${m.slug}`);
-    toggleBtn.innerHTML = `
-      <span class="chevron" aria-hidden="true">▶</span>
-      <span class="result-title">
-        <span class="name">${m.company_name}</span>
-        <span class="id">${m.company_id.type}: ${m.company_id.value}</span>
-      </span>
+    header.innerHTML = `
+      <div class="result-title">${m.company_name}</div>
+      <div class="result-subtitle">
+        ${m.company_id.type}: ${m.company_id.value}
+      </div>
     `;
 
-    const badge = document.createElement('span');
-    badge.className = 'badge warn';
-    badge.textContent = 'Has filing';
-
-    header.appendChild(toggleBtn);
-    header.appendChild(badge);
-
-    // Details block BELOW the header
     const details = document.createElement('div');
     details.className = 'result-details';
-    details.id = `details-${m.slug}`;
-    details.setAttribute('role', 'region');
-    details.setAttribute('aria-live', 'polite');
-    details.setAttribute('aria-label', `Details for ${m.company_name}`);
 
-    el.appendChild(header);
-    el.appendChild(details);
-    results.appendChild(el);
-    
-    // Toggle behavior (open/close)
-    toggleBtn.addEventListener('click', async () => {
-      const isOpen = details.classList.toggle('open');
-      toggleBtn.setAttribute('aria-expanded', String(isOpen));
-      const chevron = toggleBtn.querySelector('.chevron');
-      chevron.classList.toggle('open', isOpen);
+    header.addEventListener('click', async () => {
+      if (details.classList.contains('open')) {
+        details.classList.remove('open');
+        return;
+      }
 
-      if (isOpen && !details.dataset.loaded) {
-        details.innerHTML = '<p class="loading">Loading…</p>';
+      // close others (very simple, optional)
+      document.querySelectorAll('.result-details.open').forEach(d => d.classList.remove('open'));
+
+      if (!details.dataset.loaded) {
+        details.textContent = 'Loading…';
+
         try {
           const res = await fetch(`./api/companies/${m.slug}.json`, { cache: 'no-store' });
+
           if (res.status === 404) {
-            details.innerHTML = '<p>No filing recorded in this registry for this company.</p>';
-          } else if (res.ok) {
-            const data = await res.json();
-            details.innerHTML = companyDetailsTemplate(data);
-            details.dataset.loaded = 'true';
+            details.textContent = 'No filing recorded in this registry for this company.';
           } else {
-            details.innerHTML = `<p>Unable to load details (status ${res.status}).</p>`;
+            const data = await res.json();
+            details.innerHTML = `
+              <div class="muted">
+                <strong>${data.company_id.type}:</strong> ${data.company_id.value}
+                • <strong>Last reviewed:</strong> ${data.last_reviewed}
+              </div>
+
+              <h3>Injunctions</h3>
+
+              ${data.injunctions.map(c => `
+                <div class="case">
+                  <div><strong>Court:</strong> ${c.court} (${c.jurisdiction})</div>
+                  <div><strong>Status:</strong> ${c.status}</div>
+                  <div><strong>Filed:</strong> ${c.filed_date}</div>
+                  ${c.summary ? `<div><strong>Summary:</strong> ${c.summary}</div>` : ''}
+                  <div>${c.source_url}Source record</a></div>
+                </div>
+              `).join('')}
+
+              <div class="disclaimer">
+                This is not legal advice. See source links for authoritative information.
+              </div>
+            `;
+            details.dataset.loaded = 'true';
           }
         } catch {
-          details.innerHTML = '<p>Network error loading details.</p>';
+          details.textContent = 'Error loading record.';
         }
       }
+
+      details.classList.add('open');
     });
-  });
+
+    wrapper.appendChild(header);
+    wrapper.appendChild(details);
+    container.appendChild(wrapper);
+  }
 }
 
 async function onQuery() {
   const q = norm(document.getElementById('query').value);
-  if (!q) { document.getElementById('results').innerHTML = ''; return; }
+  if (!q) {
+    document.getElementById('results').innerHTML = '';
+    return;
+  }
 
   const idx = await loadIndex();
-  const matches = idx.companies
-    .filter(c => {
-      const n = norm(c.company_name);
-      const id = norm(c.company_id.value);
-      return n.includes(q) || id.includes(q);
-    })
-    .sort((a, b) => a.company_name.localeCompare(b.company_name));
+  const matches = idx.companies.filter(c =>
+    norm(c.company_name).includes(q) ||
+    norm(c.company_id.value).includes(q)
+  );
 
   renderResults(matches);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('query');
-  input.addEventListener('input', onQuery);
+  document.getElementById('query').addEventListener('input', onQuery);
 });

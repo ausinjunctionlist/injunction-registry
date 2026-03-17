@@ -1,87 +1,50 @@
-:root { color-scheme: light dark; }
-body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; line-height: 1.5; }
-header { margin-bottom: 1rem; }
-h1 { margin: 0 0 .5rem 0; }
-.disclaimer { font-size: .95rem; opacity: .9; }
-#query { width: 100%; max-width: 640px; padding: .75rem 1rem; font-size: 1rem; border-radius: .5rem; border: 1px solid #ccc; }
-#results { margin-top: 1rem; display: grid; gap: .5rem; max-width: 720px; }
-.result { padding: .75rem 1rem; border: 1px solid #ddd; border-radius: .5rem; cursor: pointer; display: flex; justify-content: space-between; }
-.badge { padding: .15rem .5rem; border-radius: .375rem; font-size: .85rem; }
-.badge.ok { background: #e7f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
-.badge.warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
-#details { margin-top: 1rem; max-width: 720px; }
-.case { border-left: 3px solid #888; padding-left: .75rem; margin: .5rem 0; }
-.sr-only { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-
-/* Result container as a vertical stack */
 .result {
-  border: 1px solid #ddd;
-  border-radius: .5rem;
-  padding: .75rem 1rem;
-  margin: .5rem 0;
-  background: transparent;
+  border: 1px solid #e3e3e3;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
 }
 
-/* Compact header row: left = toggle+name+id, right = badge */
 .result-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-/* Toggle button looks like plain text; left-aligned */
-.result-header button.toggle {
-  appearance: none;
-  background: transparent;
-  border: none;
-  font: inherit;
   cursor: pointer;
-  padding: 0;
-  color: inherit;
-  text-align: left;
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
 }
 
-.result-header button.toggle:focus {
-  outline: 2px solid #4c9ffe;
-  outline-offset: 2px;
+.result-header:hover {
+  background: rgba(0,0,0,0.02);
 }
 
-/* Chevron rotates when open */
-.chevron {
-  display: inline-block;
-  transition: transform 120ms ease;
-}
-.chevron.open { transform: rotate(90deg); }
-
-/* Name + ID stacked nicely */
 .result-title {
-  display: inline-block;
-  line-height: 1.2;
+  font-weight: 600;
 }
-.result-title .name { font-weight: 600; display: block; }
-.result-title .id   { font-size: .9rem; opacity: .85; display: block; }
 
-/* Badge unchanged; keep your existing colors */
-.badge { padding: .15rem .5rem; border-radius: .375rem; font-size: .85rem; }
-.badge.warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+.result-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
 
-/* Details panel: full width, below header, with top divider */
 .result-details {
   display: none;
-  margin-top: .75rem;
-  padding-top: .75rem;
-  border-top: 1px solid #e3e3e3;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
 }
 
-.result-details.open { display: block; }
-.result-details .muted { opacity: .85; }
+.result-details.open {
+  display: block;
+}
 
-/* Case block stays simple */
-.case { border-left: 3px solid #888; padding-left: .75rem; margin: .5rem 0; }
+.case {
+  margin: 0.5rem 0;
+  padding-left: 0.75rem;
+  border-left: 3px solid #bbb;
+}
 
-/* Loading text */
-.result .loading { font-size: .95rem; opacity: .9; }
+.muted {
+  opacity: 0.8;
+}
+
+.disclaimer {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
