@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>Company Injunction Detail</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <main>
@@ -12,28 +12,20 @@
   </main>
 
   <script>
-    function getParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name) || '';
+    function param(name) {
+      const p = new URLSearchParams(location.search);
+      return p.get(name) || '';
     }
-
-    async function loadDetails(slug) {
-      const detailsEl = document.getElementById('details');
-      if (!slug) {
-        detailsEl.textContent = 'Missing slug parameter.';
-        return;
-      }
-      const url = `./api/companies/${slug}.json`;
+    async function load(slug) {
+      const el = document.getElementById('details');
+      if (!slug) { el.textContent = 'Missing slug parameter.'; return; }
       try {
-        const res = await fetch(url, { cache: 'no-store' });
-        if (res.status === 404) {
-          detailsEl.innerHTML = '<p>No filing recorded in this registry for this company.</p>';
-          return;
-        }
-        if (!res.ok) throw new Error('Unexpected error');
+        const res = await fetch(`./api/companies/${slug}.json`, { cache: 'no-store' });
+        if (res.status === 404) { el.innerHTML = '<p>No filing recorded in this registry for this company.</p>'; return; }
+        if (!res.ok) throw new Error('Unexpected status ' + res.status);
         const data = await res.json();
         const inj = data.injunctions || [];
-        detailsEl.innerHTML = `
+        el.innerHTML = `
           <h2>${data.company_name}</h2>
           <p><strong>${data.company_id.type}:</strong> ${data.company_id.value}</p>
           <p><strong>Has injunction filed:</strong> ${data.has_injunction ? 'Yes' : 'No'}</p>
@@ -51,11 +43,10 @@
           <p class="disclaimer">This is not legal advice. See source links for authoritative information.</p>
         `;
       } catch (e) {
-        detailsEl.textContent = 'Unable to load record.';
+        el.textContent = 'Unable to load record.';
       }
     }
-
-    loadDetails(getParam('slug'));
+    load(param('slug'));
   </script>
 </body>
 </html>

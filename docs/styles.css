@@ -9,6 +9,5 @@ h1 { margin: 0 0 .5rem 0; }
 .badge { padding: .15rem .5rem; border-radius: .375rem; font-size: .85rem; }
 .badge.ok { background: #e7f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
 .badge.warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
-#details { margin-top: 1rem; max-width: 720px; }
 .case { border-left: 3px solid #888; padding-left: .75rem; margin: .5rem 0; }
 .sr-only { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }

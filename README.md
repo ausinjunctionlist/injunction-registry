@@ -1,16 +1,22 @@
-# Injunction Registry
+# Injunction Registry (Public Dataset & Static API)
 
-A static, read-only dataset published via GitHub Pages that indicates whether a company has an injunction filed against it, with links to public source records. **Not legal advice.**
+This site publishes a static, read-only dataset indicating whether a company has **an injunction filed** against it, with links to public source records. **Not legal advice.**
 
-## How it works
-- Each company: `docs/api/companies/{slug}.json`
-- Central index: `docs/api/index.json` (auto-generated)
-- UI: `docs/` (static, client-side)
+## Base URL
+`https://ausinjunctionlist.github.io/injunction-registry/`
 
-## Add or update a company
-1. Create or edit a file in `docs/api/companies/` following `schema/company.schema.json`.
-2. Run local checks:
-   ```bash
-   pip install jsonschema
-   python scripts/validate_data.py
-   python scripts/generate_index.py
+## Developer API (positive-only model)
+
+- **Detail (exists only if a filing is recorded):**  
+  `GET /api/companies/{slug}.json` → **200 OK** + JSON  
+  If no record exists for `{slug}`, endpoint returns **404 Not Found** → treat as “No filing recorded in this registry.”
+
+- **Discovery (only positives):**  
+  `GET /api/index.json` → array of companies that **have filings** (name, id, slug).
+
+### Examples
+
+**Check by slug**
+```bash
+# 200 -> filing exists; 404 -> no filing recorded in this registry
+curl -i https://ausinjunctionlist.github.io/injunction-registry/api/companies/example-pty-ltd.json

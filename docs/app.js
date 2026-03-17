@@ -9,7 +9,7 @@ async function loadIndex() {
   return indexCache;
 }
 
-function normalize(s) {
+function norm(s) {
   return (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
 }
 
@@ -24,42 +24,20 @@ function renderResults(matches) {
         <strong>${m.company_name}</strong><br/>
         <small>${m.company_id.type}: ${m.company_id.value}</small>
       </div>
-      <span class="badge ${m.has_injunction ? 'warn' : 'ok'}">
-        ${m.has_injunction ? 'Has filing' : 'No filing recorded'}
-      </span>
+      <span class="badge warn">Has filing</span>
     `;
     el.onclick = () => window.location.href = `./company.html?slug=${encodeURIComponent(m.slug)}`;
     results.appendChild(el);
   });
 }
 
-async function loadDetails(slug) {
-  const detailsEl = document.getElementById('details');
-  detailsEl.textContent = 'Loading...';
-  try {
-    const res = await fetch(`./api/companies/${slug}.json`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('Not found');
-    const data = await res.json();
-    const inj = data.injunctions || [];
-    detailsEl.innerHTML = `
-      <h2>${data.company_name}</h2>
-      ...
-    `;
-  } catch (e) {
-    detailsEl.textContent = 'No details found.';
-  }
-}
-
 async function onQuery() {
-  const q = normalize(document.getElementById('query').value);
-  const detailsEl = document.getElementById('details');
-  detailsEl.innerHTML = '';
+  const q = norm(document.getElementById('query').value);
   if (!q) { document.getElementById('results').innerHTML = ''; return; }
-
   const idx = await loadIndex();
   const matches = idx.companies.filter(c => {
-    const n = normalize(c.company_name);
-    const id = normalize(c.company_id.value);
+    const n = norm(c.company_name);
+    const id = norm(c.company_id.value);
     return n.includes(q) || id.includes(q);
   }).sort((a, b) => a.company_name.localeCompare(b.company_name));
   renderResults(matches);
