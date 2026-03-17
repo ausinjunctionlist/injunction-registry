@@ -21,28 +21,30 @@ function companyDetailsTemplate(data) {
       <div><strong>Type:</strong> ${c.type || '—'} | <strong>Status:</strong> ${c.status}</div>
       <div><strong>Filed:</strong> ${c.filed_date} | <strong>Case #</strong> ${c.case_number}</div>
       ${c.summary ? `<div><strong>Summary:</strong> ${c.summary}</div>` : ''}
-      <div>${c.source_url ? `<a href="${c.source_url}" target="_blank" rel="noopener noreferrer">Source record</a>` : ''}</div>
+      ${c.source_url ? `<div><a href="${c.source_url}" target="_blank" rel="noopener noreferrer">Source record</a></div>` : ''}
     </div>
   `).join('');
 
   return `
-    <div>
-      <p class="muted"><strong>${data.company_id.type}:</strong> ${data.company_id.value} • <strong>Last reviewed:</strong> ${data.last_reviewed}</p>
-      ${inj.length ? `<h3>Injunctions</h3>${rows}` : '<p>No injunction details found in record.</p>'}
-      <p class="disclaimer">This is not legal advice. See source links for authoritative information.</p>
-    </div>
+    <p class="muted">
+      <strong>${data.company_id.type}:</strong> ${data.company_id.value}
+      • <strong>Last reviewed:</strong> ${data.last_reviewed}
+    </p>
+    ${inj.length ? `<h3>Injunctions</h3>${rows}` : '<p>No injunction details found in record.</p>'}
+    <p class="disclaimer">This is not legal advice. See source links for authoritative information.</p>
   `;
 }
 
 function renderResults(matches) {
   const results = document.getElementById('results');
   results.innerHTML = '';
+
   matches.slice(0, 100).forEach(m => {
     const el = document.createElement('div');
     el.className = 'result';
     el.setAttribute('data-slug', m.slug);
 
-    // Header
+    // Header row
     const header = document.createElement('div');
     header.className = 'result-header';
 
@@ -50,12 +52,11 @@ function renderResults(matches) {
     toggleBtn.className = 'toggle';
     toggleBtn.setAttribute('aria-expanded', 'false');
     toggleBtn.setAttribute('aria-controls', `details-${m.slug}`);
-
     toggleBtn.innerHTML = `
       <span class="chevron" aria-hidden="true">▶</span>
-      <span>
-        <strong>${m.company_name}</strong><br/>
-        <small>${m.company_id.type}: ${m.company_id.value}</small>
+      <span class="result-title">
+        <span class="name">${m.company_name}</span>
+        <span class="id">${m.company_id.type}: ${m.company_id.value}</span>
       </span>
     `;
 
@@ -66,7 +67,7 @@ function renderResults(matches) {
     header.appendChild(toggleBtn);
     header.appendChild(badge);
 
-    // Details panel
+    // Details block BELOW the header
     const details = document.createElement('div');
     details.className = 'result-details';
     details.id = `details-${m.slug}`;
@@ -77,37 +78,29 @@ function renderResults(matches) {
     el.appendChild(header);
     el.appendChild(details);
     results.appendChild(el);
-
-    // Click/keyboard handler
+    
+    // Toggle behavior (open/close)
     toggleBtn.addEventListener('click', async () => {
       const isOpen = details.classList.toggle('open');
       toggleBtn.setAttribute('aria-expanded', String(isOpen));
       const chevron = toggleBtn.querySelector('.chevron');
       chevron.classList.toggle('open', isOpen);
 
-      if (isOpen) {
-        // Lazy-load details only once
-        if (!details.dataset.loaded) {
-          details.innerHTML = '<p class="loading">Loading…</p>';
-          try {
-            const res = await fetch(`./api/companies/${m.slug}.json`, { cache: 'no-store' });
-            if (res.status === 404) {
-              details.innerHTML = '<p>No filing recorded in this registry for this company.</p>';
-            } else if (res.ok) {
-              const data = await res.json();
-              details.innerHTML = companyDetailsTemplate(data);
-              details.dataset.loaded = 'true';
-            } else {
-              details.innerHTML = `<p>Unable to load details (status ${res.status}).</p>`;
-            }
-          } catch (e) {
-            details.innerHTML = '<p>Network error loading details.</p>';
+      if (isOpen && !details.dataset.loaded) {
+        details.innerHTML = '<p class="loading">Loading…</p>';
+        try {
+          const res = await fetch(`./api/companies/${m.slug}.json`, { cache: 'no-store' });
+          if (res.status === 404) {
+            details.innerHTML = '<p>No filing recorded in this registry for this company.</p>';
+          } else if (res.ok) {
+            const data = await res.json();
+            details.innerHTML = companyDetailsTemplate(data);
+            details.dataset.loaded = 'true';
+          } else {
+            details.innerHTML = `<p>Unable to load details (status ${res.status}).</p>`;
           }
-        }
-        // Scroll into view when opened, but only if the panel is off-screen
-        const rect = details.getBoundingClientRect();
-        if (rect.bottom > window.innerHeight || rect.top < 0) {
-          details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } catch {
+          details.innerHTML = '<p>Network error loading details.</p>';
         }
       }
     });
@@ -134,4 +127,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('query');
   input.addEventListener('input', onQuery);
 });
-``
