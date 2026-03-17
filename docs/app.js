@@ -52,22 +52,25 @@ async function renderResults(matches) {
             details.textContent = 'No filing recorded in this registry for this company.';
           } else {
             const data = await res.json();
+            const inj = data.injunctions || [];
             details.innerHTML = `
-              <h2>${data.company_name}</h2>
-              <p><strong>${data.company_id.type}:</strong> ${data.company_id.value}</p>
-              <p><strong>Has injunction filed:</strong> ${data.has_injunction ? 'Yes' : 'No'}</p>
-              <p><strong>Last reviewed:</strong> ${data.last_reviewed}</p>
+              <p class="muted">
+                <strong>${data.company_id.type}:</strong> ${data.company_id.value}
+                • <strong>Last reviewed:</strong> ${data.last_reviewed}
+              </p>
               ${inj.length ? '<h3>Injunctions</h3>' : ''}
               ${inj.map(c => `
                 <div class="case">
                   <div><strong>Court:</strong> ${c.court} (${c.jurisdiction})</div>
-                  <div><strong>Type:</strong> ${c.type || '—'} | <strong>Status:</strong> ${c.status}</div>
-                  <div><strong>Filed:</strong> ${c.filed_date} | <strong>Case #</strong> ${c.case_number}</div>
+                  <div><strong>Status:</strong> ${c.status}</div>
+                  <div><strong>Filed:</strong> ${c.filed_date}</div>
                   ${c.summary ? `<div><strong>Summary:</strong> ${c.summary}</div>` : ''}
                   <div><a href="${c.source_url}" target="_blank" rel="noopener">Source record</a></div>
                 </div>
               `).join('')}
+              <p class="disclaimer">This is not legal advice. See source links for authoritative information.</p>
             `;
+
             details.dataset.loaded = 'true';
           }
         } catch {
