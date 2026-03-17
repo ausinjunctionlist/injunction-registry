@@ -1,9 +1,0 @@
-{
-  "_schema_version": "1.0",
-  "company_name": "CleanCo Pty Ltd",
-  "company_id": { "type": "ABN", "value": "12 345 678 901" },
-  "jurisdictions": ["NSW"],
-  "has_injunction": false,
-  "injunctions": [],
-  "last_reviewed": "2026-03-17"
-}
