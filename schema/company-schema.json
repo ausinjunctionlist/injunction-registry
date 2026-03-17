@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Company Injunction Record",
+  "type": "object",
+  "required": ["_schema_version", "company_name", "company_id", "has_injunction", "injunctions", "last_reviewed"],
+  "properties": {
+    "_schema_version": { "type": "string", "const": "1.0" },
+    "company_name": { "type": "string", "minLength": 1 },
+    "company_id": {
+      "type": "object",
+      "required": ["type", "value"],
+      "properties": {
+        "type": { "type": "string", "enum": ["ACN", "ABN", "LEI", "Other"] },
+        "value": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "jurisdictions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "default": []
+    },
+    "has_injunction": { "type": "boolean" },
+    "injunctions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["court", "jurisdiction", "status", "filed_date", "case_number", "source_url"],
+        "properties": {
+          "court": { "type": "string" },
+          "jurisdiction": { "type": "string" },
+          "type": { "type": "string", "enum": ["Interlocutory", "Final", "Interim", "Unknown"] },
+          "status": { "type": "string", "enum": ["Active", "Expired", "Dismissed", "Unknown"] },
+          "filed_date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "case_number": { "type": "string" },
+          "parties": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+          },
+          "summary": { "type": "string" },
+          "source_url": { "type": "string", "format": "uri" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "notes": { "type": "string" },
+    "last_reviewed": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+  },
+  "additionalProperties": false
+}

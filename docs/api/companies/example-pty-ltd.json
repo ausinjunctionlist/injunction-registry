@@ -1,0 +1,22 @@
+{
+  "_schema_version": "1.0",
+  "company_name": "Example Pty Ltd",
+  "company_id": { "type": "ACN", "value": "123 456 789" },
+  "jurisdictions": ["NSW"],
+  "has_injunction": true,
+  "injunctions": [
+    {
+      "court": "Supreme Court of NSW",
+      "jurisdiction": "NSW",
+      "type": "Interlocutory",
+      "status": "Active",
+      "filed_date": "2024-06-10",
+      "case_number": "2024/12345",
+      "parties": ["Plaintiff v Example Pty Ltd"],
+      "summary": "Interlocutory injunction restraining certain conduct pending trial.",
+      "source_url": "https://www.caselaw.nsw.gov.au/decision/..."
+    }
+  ],
+  "notes": "Verified against public court record. See source.",
+  "last_reviewed": "2026-03-17"
+}

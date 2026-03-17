@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Injunction Registry (Public Dataset)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="./styles.css" rel="stylesheet" />
+</head>
+<body>
+  <header>
+    <h1>Injunction Registry</h1>
+    <p class="disclaimer">
+      Publicly sourced information about whether a company has an injunction filed against it.
+      Not legal advice. Records may be incomplete or out of date.
+      <a href="./disclaimer.html">Read the full disclaimer.</a>
+    </p>
+  </header>
+
+  <main>
+    <label for="query" class="sr-only">Search company</label>
+    <input id="query" type="search" placeholder="Search company name or ID (ACN/ABN/LEI)" autocomplete="off" />
+    <div id="results"></div>
+    <div id="details"></div>
+  </main>
+
+  <footer>
+    <small>© 2026 Injunction Registry • <a href="https://github.com/YOURUSER/injunction-registry">GitHub</a></small>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
