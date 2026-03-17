@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Company Injunction Detail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <div id="details">Loading…</div>
+  </main>
+
+  <script>
+    function param(name) {
+      const p = new URLSearchParams(location.search);
+      return p.get(name) || '';
+    }
+    async function load(slug) {
+      const el = document.getElementById('details');
+      if (!slug) { el.textContent = 'Missing slug parameter.'; return; }
+      try {
+        const res = await fetch(`./api/companies/${slug}.json`, { cache: 'no-store' });
+        if (res.status === 404) { el.innerHTML = '<p>No filing recorded in this registry for this company.</p>'; return; }
+        if (!res.ok) throw new Error('Unexpected status ' + res.status);
+        const data = await res.json();
+        const inj = data.injunctions || [];
+        el.innerHTML = `
+          <h2>${data.company_name}</h2>
+          <p><strong>${data.company_id.type}:</strong> ${data.company_id.value}</p>
+          <p><strong>Has injunction filed:</strong> ${data.has_injunction ? 'Yes' : 'No'}</p>
+          <p><strong>Last reviewed:</strong> ${data.last_reviewed}</p>
+          ${inj.length ? '<h3>Injunctions</h3>' : ''}
+          ${inj.map(c => `
+            <div class="case">
+              <div><strong>Court:</strong> ${c.court} (${c.jurisdiction})</div>
+              <div><strong>Type:</strong> ${c.type || '—'} | <strong>Status:</strong> ${c.status}</div>
+              <div><strong>Filed:</strong> ${c.filed_date} | <strong>Case #</strong> ${c.case_number}</div>
+              ${c.summary ? `<div><strong>Summary:</strong> ${c.summary}</div>` : ''}
+              <div><a href="${c.source_url}" rel="noopener noreferrer" target="_blank">Source record</a></div>
+            </div>
+          `).join('')}
+          <p class="disclaimer">This is not legal advice. See source links for authoritative information.</p>
+        `;
+      } catch (e) {
+        el.textContent = 'Unable to load record.';
+      }
+    }
+    load(param('slug'));
+  </script>
+</body>
+</html>
