@@ -174,8 +174,7 @@ async function renderRecent(limit = 5) {
                     <div><strong>Court:</strong> ${c.court} (${c.jurisdiction})</div>
                     <div><strong>Status:</strong> ${c.status}</div>
                     <div><strong>Filed:</strong> ${c.filed_date}</div>
-                    ${c.summary ? `<div><strong>Summary:</strong> ${c.summary}</div>` : ''}
-                    <div>${c.source_url}Source record</a></div>
+                    <div><strong>Citation:</strong> <a href="${c.source_url}" target="_blank" rel="noopener">${c.citation}</a></div>
                   </div>
                 `).join('')}
                 <p class="disclaimer">This is not legal advice. See source links for authoritative information.</p>
