@@ -55,3 +55,25 @@ h1 { margin: 0 0 .5rem 0; }
 /* Utilities */
 .muted { opacity: 0.8; }
 .sr-only { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+.section-title {
+  margin: 1rem 0 .5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+#recent {
+  max-width: 720px;
+}
+
+/* Reuse the same card style as results */
+#recent .result {
+  border: 1px solid #e3e3e3;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+}
+
+#recent .result-title { font-weight: 600; }
+#recent .result-subtitle { font-size: 0.9rem; opacity: 0.8; }

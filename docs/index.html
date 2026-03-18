@@ -19,6 +19,15 @@
   <main>
     <label for="query" class="sr-only">Search company</label>
     <input id="query" type="search" placeholder="Search company name or ID (ACN/ABN/LEI)" autocomplete="off" />
+    
+    
+    <!-- Recent injunctions (populated by JS) -->
+      <section id="recent-section" aria-label="Recent injunctions">
+        <h2 class="section-title">Recent injunctions</h2>
+        <div id="recent"></div>
+      </section>
+
+    
     <div id="results"></div>
     <div id="details"></div>
   </main>

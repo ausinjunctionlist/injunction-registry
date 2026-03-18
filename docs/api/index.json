@@ -8,7 +8,8 @@
         "type": "ACN",
         "value": "246 549 189"
       },
-      "has_injunction": true
+      "has_injunction": true,
+      "latest_filed_date": "2024-02-12"
     },
     {
       "slug": "qantas-airways-ltd",
@@ -17,16 +18,18 @@
         "type": "ACN",
         "value": "009 661 901"
       },
-      "has_injunction": true
+      "has_injunction": true,
+      "latest_filed_date": "2025-11-10"
     },
     {
       "slug": "the-university-of-notre-dame-australia",
       "company_name": "The University of Notre Dame Australia",
       "company_id": {
         "type": "ACN",
-        "value": "009 661 901"
+        "value": "330 643 210"
       },
-      "has_injunction": true
+      "has_injunction": true,
+      "latest_filed_date": "2025-05-29"
     }
   ]
 }

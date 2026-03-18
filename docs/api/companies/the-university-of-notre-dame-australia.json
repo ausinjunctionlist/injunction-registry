@@ -1,7 +1,7 @@
 {
   "_schema_version": "1.0",
   "company_name": "The University of Notre Dame Australia",
-  "company_id": { "type": "ACN", "value": "009 661 901" },
+  "company_id": { "type": "ACN", "value": "330 643 210" },
   "jurisdictions": ["NSW"],
   "has_injunction": true,
   "injunctions": [
