@@ -12,6 +12,16 @@
       "latest_filed_date": "2024-02-12"
     },
     {
+      "slug": "manage-my-health",
+      "company_name": "Manage My Health Limited",
+      "company_id": {
+        "type": "NZBN",
+        "value": "9429032552072"
+      },
+      "has_injunction": true,
+      "latest_filed_date": "2026-01-05"
+    },
+    {
       "slug": "qantas-airways-ltd",
       "company_name": "Qantas Airways Limited",
       "company_id": {

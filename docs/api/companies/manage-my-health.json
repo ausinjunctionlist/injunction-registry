@@ -1,0 +1,21 @@
+{
+  "_schema_version": "1.0",
+  "company_name": "Manage My Health Limited",
+  "company_id": { "type": "NZBN", "value": "9429032552072" },
+  "jurisdictions": ["NZ"],
+  "has_injunction": true,
+  "injunctions": [
+    {
+      "court": "High Court of New Zealand",
+      "jurisdiction": "NZ",
+      "type": "Interlocutory",
+      "status": "Active",
+      "filed_date": "2026-01-05",
+      "case_number": "[2026] NZHC 2",
+      "citation": "MANAGE MY HEALTH LTD v UNKNOWN DEFENDANTS [2026] NZHC 2",
+      "source_url": "https://www.courtsofnz.govt.nz/assets/cases/2026/2026-NZHC-2.pdf"
+    }
+  ],
+  "notes": "Verified against public court record. See source.",
+  "last_reviewed": "2026-03-19"
+}
