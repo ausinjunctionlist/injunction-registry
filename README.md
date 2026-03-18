@@ -1,6 +1,6 @@
-# Injunction Registry (Public Dataset & Static API)
+# Injunction Registry
 
-This site publishes a static, read-only dataset indicating whether a company has **an injunction filed** against it, with links to public source records. **Not legal advice.**
+This site publishes a static, read-only dataset indicating whether a company has **obtained an injunction** restraining the publication or dissemination of confidential information, with links to public source records. **Not legal advice.**
 
 ## Base URL
 `https://ausinjunctionlist.github.io/injunction-registry/`
