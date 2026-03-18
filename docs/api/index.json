@@ -18,6 +18,15 @@
         "value": "009 661 901"
       },
       "has_injunction": true
+    },
+    {
+      "slug": "the-university-of-notre-dame-australia",
+      "company_name": "The University of Notre Dame Australia",
+      "company_id": {
+        "type": "ACN",
+        "value": "009 661 901"
+      },
+      "has_injunction": true
     }
   ]
 }

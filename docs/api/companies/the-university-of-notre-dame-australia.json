@@ -1,6 +1,6 @@
 {
   "_schema_version": "1.0",
-  "company_name": "Qantas Airways Limited",
+  "company_name": "The University of Notre Dame Australia",
   "company_id": { "type": "ACN", "value": "009 661 901" },
   "jurisdictions": ["NSW"],
   "has_injunction": true,
@@ -10,10 +10,10 @@
       "jurisdiction": "NSW",
       "type": "Interlocutory",
       "status": "Active",
-      "filed_date": "2025-11-10",
-      "case_number": "2025/272678",
-      "citation": "Qantas Airways Limited v Persons Unknown (No 2) [2025] NSWSC 1328",
-      "source_url": "https://www.caselaw.nsw.gov.au/decision/19a4c8a6e51c8063fab54ce2"
+      "filed_date": "2025-05-29",
+      "case_number": "2025/64219",
+      "citation": "The University of Notre Dame Australia v Persons Unknown [2025] NSWSC 550",
+      "source_url": "https://www.caselaw.nsw.gov.au/decision/197190ab85945b7990751f15"
     }
   ],
   "notes": "Verified against public court record. See source.",
