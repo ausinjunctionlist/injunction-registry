@@ -1,12 +1,21 @@
 {
-  "last_updated": "2026-03-17",
+  "last_updated": "2026-03-18",
   "companies": [
     {
-      "slug": "example-pty-ltd",
-      "company_name": "Example Pty Ltd",
+      "slug": "hwl-ebsworth-lawyers",
+      "company_name": "HWL Ebsworth Lawyers",
       "company_id": {
         "type": "ACN",
-        "value": "123 456 789"
+        "value": "246 549 189"
+      },
+      "has_injunction": true
+    },
+    {
+      "slug": "qantas-airways-ltd",
+      "company_name": "Qantas Airways Limited",
+      "company_id": {
+        "type": "ACN",
+        "value": "009 661 901"
       },
       "has_injunction": true
     }

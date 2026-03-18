@@ -1,0 +1,22 @@
+{
+  "_schema_version": "1.0",
+  "company_name": "Qantas Airways Limited",
+  "company_id": { "type": "ACN", "value": "009 661 901" },
+  "jurisdictions": ["NSW"],
+  "has_injunction": true,
+  "injunctions": [
+    {
+      "court": "Supreme Court of NSW",
+      "jurisdiction": "NSW",
+      "type": "Interlocutory",
+      "status": "Active",
+      "filed_date": "2025-11-10",
+      "case_number": "2025/272678",
+      "parties": ["Qantas Airways Limited v Persons Unknown (No 2)"],
+      "summary": "Interlocutory injunction restraining certain conduct and suppression orders for identify of law firm and lawyers involved.",
+      "source_url": "https://www.caselaw.nsw.gov.au/decision/19a4c8a6e51c8063fab54ce2"
+    }
+  ],
+  "notes": "Verified against public court record. See source.",
+  "last_reviewed": "2026-03-19"
+}
