@@ -151,7 +151,7 @@ async function renderRecent(limit = 5) {
         <div class="result-title">${m.company_name}</div>
         <div class="result-subtitle">
           ${m.company_id.type}: ${m.company_id.value}
-          ${m.latest_filed_date ? ` • Filed: ${m.latest_filed_date}` : ''}
+          ${m.latest_filed_date ? ` • Filed: ${fmtDate(m.latest_filed_date)}` : ''}
         </div>
       `;
 
