@@ -65,7 +65,7 @@ async function renderResults(matches) {
             details.innerHTML = `
               <p class="muted">
                 <strong>${data.company_id.type}:</strong> ${data.company_id.value}
-                • <strong>Last reviewed:</strong> ${data.last_reviewed}
+                • <strong>Last reviewed:</strong> ${fmtDate(data.last_reviewed)}
               </p>
               ${inj.length ? '<h3>Injunctions</h3>' : ''}
               ${inj.map(c => `
@@ -175,7 +175,7 @@ async function renderRecent(limit = 5) {
               details.innerHTML = `
                 <p class="muted">
                   <strong>${data.company_id.type}:</strong> ${data.company_id.value}
-                  • <strong>Last reviewed:</strong> ${data.last_reviewed}
+                  • <strong>Last reviewed:</strong> ${fmtDate(data.last_reviewed)}
                 </p>
                 ${inj.length ? '<h3>Injunctions</h3>' : ''}
                 ${inj.map(c => `
