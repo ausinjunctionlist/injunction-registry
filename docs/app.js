@@ -13,6 +13,15 @@ function norm(s) {
   return (s || '').toLowerCase().trim();
 }
 
+const DATE_FMT = new Intl.DateTimeFormat('en-AU', { day:'2-digit', month:'short', year:'numeric' });
+
+function fmtDate(iso) {
+  if (!iso) return '';                  // no date
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? iso : DATE_FMT.format(d);
+}
+
+
 async function renderResults(matches) {
   const container = document.getElementById('results');
   container.innerHTML = '';
@@ -63,7 +72,7 @@ async function renderResults(matches) {
                 <div class="case">
                   <div><strong>Court:</strong> ${c.court} (${c.jurisdiction})</div>
                   <div><strong>Status:</strong> ${c.status}</div>
-                  <div><strong>Filed:</strong> ${c.filed_date}</div>
+                  <div><strong>Filed:</strong> ${fmtDate(c.filed_date)}</div>
                   <div><strong>Citation:</strong> <a href="${c.source_url}" target="_blank" rel="noopener">${c.citation}</a></div>
                 </div>
               `).join('')}
@@ -173,7 +182,7 @@ async function renderRecent(limit = 5) {
                   <div class="case">
                     <div><strong>Court:</strong> ${c.court} (${c.jurisdiction})</div>
                     <div><strong>Status:</strong> ${c.status}</div>
-                    <div><strong>Filed:</strong> ${c.filed_date}</div>
+                    <div><strong>Filed:</strong> ${fmtDate(c.filed_date)}</div>
                     <div><strong>Citation:</strong> <a href="${c.source_url}" target="_blank" rel="noopener">${c.citation}</a></div>
                   </div>
                 `).join('')}
